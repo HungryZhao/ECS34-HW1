@@ -103,18 +103,49 @@ std::string Strip(const std::string &str) noexcept{
 }
 
 std::string Center(const std::string &str, int width, char fill) noexcept{
-    // Replace code here
-    return "";
+    const int len = static_cast<int>(str.size());
+
+    if (width <= len) {
+        return str;
+    }
+
+
+    std::string result = str;
+
+    const int total_pad = width - len;
+    const int left_pad = total_pad / 2;
+    const int right_pad = total_pad - left_pad;
+
+    result = std::string(static_cast<size_t>(left_pad), fill) + str + std::string(static_cast<size_t>(right_pad), fill);
+
+    return result;
 }
 
 std::string LJust(const std::string &str, int width, char fill) noexcept{
-    // Replace code here
-    return "";
+    const int len = static_cast<int>(str.size());
+
+    if (width <= len) {
+        return str;
+    }
+    
+    std::string result = str;
+    const int pad = width - len;
+    result += std::string(static_cast<size_t>(pad), fill);
+    return result;
 }
 
 std::string RJust(const std::string &str, int width, char fill) noexcept{
-    // Replace code here
-    return "";
+    const int len = static_cast<int>(str.size());
+
+    if (width <= len) {
+        return str;
+    }
+
+    std::string result = str;
+    const int pad = width - len;
+    result = std::string(static_cast<size_t>(pad), fill) + str;
+
+    return result;
 }
 
 std::string Replace(const std::string &str, const std::string &old, const std::string &rep) noexcept{

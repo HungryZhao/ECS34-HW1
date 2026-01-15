@@ -75,15 +75,32 @@ TEST(StringUtilsTest, Strip){
 }
 
 TEST(StringUtilsTest, Center){
-    
+	EXPECT_EQ(StringUtils::Center("", 0), "");
+	EXPECT_EQ(StringUtils::Center("hi", 1), "hi");    
+	EXPECT_EQ(StringUtils::Center("hi", 2), "hi");
+    EXPECT_EQ(StringUtils::Center("hi", -3), "hi");
+	EXPECT_EQ(StringUtils::Center("hi", 4), " hi ");
+	EXPECT_EQ(StringUtils::Center("hi", 5), " hi  ");
+	EXPECT_EQ(StringUtils::Center("hi", 5, '*'), "*hi**");
 }
 
 TEST(StringUtilsTest, LJust){
-    
+
+	EXPECT_EQ(StringUtils::LJust("", 0), "");
+	EXPECT_EQ(StringUtils::LJust("hi", 2), "hi");
+	EXPECT_EQ(StringUtils::LJust("hi", 1), "hi");
+	EXPECT_EQ(StringUtils::LJust("hi", -1), "hi");
+	EXPECT_EQ(StringUtils::LJust("hi", 5), "hi   ");
+	EXPECT_EQ(StringUtils::LJust("hi", 5, '*'), "hi***");
 }
 
 TEST(StringUtilsTest, RJust){
-    
+	EXPECT_EQ(StringUtils::RJust("", 0), "");
+	EXPECT_EQ(StringUtils::RJust("hi", 2), "hi");
+	EXPECT_EQ(StringUtils::RJust("hi", 1), "hi");
+	EXPECT_EQ(StringUtils::RJust("hi", -1), "hi");
+	EXPECT_EQ(StringUtils::RJust("hi", 5), "   hi");
+	EXPECT_EQ(StringUtils::RJust("hi", 5, '*'), "***hi");
 }
 
 TEST(StringUtilsTest, Replace){
