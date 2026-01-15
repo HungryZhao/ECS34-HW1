@@ -29,15 +29,24 @@ TEST(StringUtilsTest, SliceTest){
 }
 
 TEST(StringUtilsTest, Capitalize){
-    
+	EXPECT_EQ(StringUtils::Capitalize(""), "");
+	EXPECT_EQ(StringUtils::Capitalize("a"), "A");
+	EXPECT_EQ(StringUtils::Capitalize("hello"), "Hello");
+	EXPECT_EQ(StringUtils::Capitalize("hELLo"), "Hello");
+	EXPECT_EQ(StringUtils::Capitalize("123ABC"), "123abc");
+    EXPECT_EQ(StringUtils::Capitalize("ABC123"), "Abc123");
 }
 
 TEST(StringUtilsTest, Upper){
-    
+	EXPECT_EQ(StringUtils::Upper(""), "");
+	EXPECT_EQ(StringUtils::Upper("Abc!"), "ABC!");
+	EXPECT_EQ(StringUtils::Upper("already UPPER"), "ALREADY UPPER");
 }
 
 TEST(StringUtilsTest, Lower){
-    
+	EXPECT_EQ(StringUtils::Lower(""), "");
+	EXPECT_EQ(StringUtils::Lower("AbC!"), "abc!");
+	EXPECT_EQ(StringUtils::Lower("already lower"), "already lower");
 }
 
 TEST(StringUtilsTest, LStrip){
