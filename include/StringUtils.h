@@ -1,6 +1,7 @@
 #ifndef STRINGUTILS_H
 #define STRINGUTILS_H
 
+#include <sys/types.h>
 #include <string>
 #include <vector>
 
