@@ -50,15 +50,28 @@ TEST(StringUtilsTest, Lower){
 }
 
 TEST(StringUtilsTest, LStrip){
-    
+	EXPECT_EQ(StringUtils::LStrip(""), "");
+	EXPECT_EQ(StringUtils::LStrip("abc"), "abc");
+	EXPECT_EQ(StringUtils::LStrip("   abc"), "abc");
+	EXPECT_EQ(StringUtils::LStrip("\t\n  abc"), "abc");
+	EXPECT_EQ(StringUtils::LStrip("   a b c"), "a b c");
 }
 
 TEST(StringUtilsTest, RStrip){
-    
+	EXPECT_EQ(StringUtils::RStrip(""), "");
+	EXPECT_EQ(StringUtils::RStrip("abc"), "abc");
+	EXPECT_EQ(StringUtils::RStrip("abc   "), "abc");
+	EXPECT_EQ(StringUtils::RStrip("abc\t\n  "), "abc");
+	EXPECT_EQ(StringUtils::RStrip("a b c   "), "a b c");
 }
 
 TEST(StringUtilsTest, Strip){
-    
+	EXPECT_EQ(StringUtils::Strip(""), "");
+	EXPECT_EQ(StringUtils::Strip("abc"), "abc");
+	EXPECT_EQ(StringUtils::Strip("   abc   "), "abc");
+	EXPECT_EQ(StringUtils::Strip("\t\n  abc\r\n"), "abc");
+	EXPECT_EQ(StringUtils::Strip("   a b c   "), "a b c");
+	EXPECT_EQ(StringUtils::Strip("     "), "");
 }
 
 TEST(StringUtilsTest, Center){

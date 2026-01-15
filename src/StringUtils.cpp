@@ -70,18 +70,36 @@ std::string Lower(const std::string &str) noexcept{
 }
 
 std::string LStrip(const std::string &str) noexcept{
-    // Replace code here
-    return "";
+    
+    
+    if (str.empty()) {
+        return "";
+    }
+
+    size_t i = 0;
+    while (i < str.size() && std::isspace(static_cast<unsigned char>(str[i]))) {
+        ++i;
+    }
+    return str.substr(i);
 }
 
 std::string RStrip(const std::string &str) noexcept{
-    // Replace code here
-    return "";
+
+
+    if (str.empty()) {
+        return "";
+    }
+
+    
+    size_t j = str.size();
+    while (j > 0 && std::isspace(static_cast<unsigned char>(str[j - 1]))) {
+        --j;
+    }
+    return str.substr(0, j);
 }
 
 std::string Strip(const std::string &str) noexcept{
-    // Replace code here
-    return "";
+    return RStrip(LStrip(str));
 }
 
 std::string Center(const std::string &str, int width, char fill) noexcept{
