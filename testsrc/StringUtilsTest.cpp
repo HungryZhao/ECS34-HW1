@@ -104,11 +104,27 @@ TEST(StringUtilsTest, RJust){
 }
 
 TEST(StringUtilsTest, Replace){
+
+	EXPECT_EQ(StringUtils::Replace("hello", "l", "L"), "heLLo");
+	EXPECT_EQ(StringUtils::Replace("aaaa", "aa", "b"), "bb");
+	EXPECT_EQ(StringUtils::Replace("hello", "xyz", "Q"), "hello");
+	EXPECT_EQ(StringUtils::Replace("banana", "na", ""), "ba");
+
+	EXPECT_EQ(StringUtils::Replace("abc", "", "-"), "-a-b-c-");
+	EXPECT_EQ(StringUtils::Replace("", "", "-"), "-");
     
 }
 
 TEST(StringUtilsTest, Split){
-    
+	EXPECT_EQ(StringUtils::Split("  a   b\tc\n"), (std::vector<std::string>{"a", "b", "c"}));
+	EXPECT_EQ(StringUtils::Split("   \t\n  "), (std::vector<std::string>{}));
+	EXPECT_EQ(StringUtils::Split(""), (std::vector<std::string>{}));
+
+	EXPECT_EQ(StringUtils::Split("a,b,c", ","), (std::vector<std::string>{"a", "b", "c"}));
+	EXPECT_EQ(StringUtils::Split("a,,b,", ","), (std::vector<std::string>{"a", "", "b", ""}));
+	EXPECT_EQ(StringUtils::Split("abc", ","), (std::vector<std::string>{"abc"}));
+	EXPECT_EQ(StringUtils::Split("", ","), (std::vector<std::string>{""}));
+	EXPECT_EQ(StringUtils::Split("a--b----c", "--"), (std::vector<std::string>{"a", "b", "", "c"}));
 }
 
 TEST(StringUtilsTest, Join){

@@ -149,13 +149,81 @@ std::string RJust(const std::string &str, int width, char fill) noexcept{
 }
 
 std::string Replace(const std::string &str, const std::string &old, const std::string &rep) noexcept{
-    // Replace code here
-    return "";
+    
+    if (old.empty()) {
+        std::string result;
+        result.reserve(str.size() + rep.size() * (str.size() + 1));
+        result += rep;
+
+
+        for (size_t i = 0; i < str.size(); ++i) {
+            result += str[i];
+            result += rep;
+        }
+        return result;
+    }
+
+    std::string result;
+    result.reserve(str.size());
+
+    size_t pos = 0;
+
+
+    while (true) {
+        const size_t found = str.find(old, pos);
+        if (found == std::string::npos) {
+            result.append(str, pos, std::string::npos);
+            break;
+        }
+
+
+        result.append(str, pos, found - pos);
+        result += rep;
+        pos = found + old.size();
+    }
+    return result;
 }
 
 std::vector< std::string > Split(const std::string &str, const std::string &splt) noexcept{
-    // Replace code here
-    return {};
+    std::vector<std::string> parts;
+
+    if (splt.empty()) {
+        size_t i = 0;
+        while (i < str.size()) {
+
+            while (i < str.size() && std::isspace(static_cast<unsigned char>(str[i]))) {
+                ++i;
+            }
+
+            if (i >= str.size()) {
+                break;
+            }
+
+            const size_t start = i;
+            while (i < str.size() && !std::isspace(static_cast<unsigned char>(str[i]))) {
+                ++i;
+            }
+            
+            parts.push_back(str.substr(start, i - start));
+        }
+        return parts;
+    }
+
+
+
+    size_t pos = 0;
+    while (true) {
+        const size_t found = str.find(splt, pos);
+        if (found == std::string::npos) {
+
+
+            parts.push_back(str.substr(pos));
+            break;
+        }
+        parts.push_back(str.substr(pos, found - pos));
+        pos = found + splt.size();
+    }
+    return parts;
 }
 
 std::string Join(const std::string &str, const std::vector< std::string > &vect) noexcept{
