@@ -227,13 +227,58 @@ std::vector< std::string > Split(const std::string &str, const std::string &splt
 }
 
 std::string Join(const std::string &str, const std::vector< std::string > &vect) noexcept{
-    // Replace code here
-    return "";
+    if (vect.empty()) {
+        return "";
+    }
+
+    std::string result = vect[0];
+    for (size_t i = 1; i < vect.size(); ++i) {
+        result += str;
+        result += vect[i];
+    }
+    return result;
 }
 
 std::string ExpandTabs(const std::string &str, int tabsize) noexcept{
-    // Replace code here
-    return "";
+    if (tabsize <= 0) {
+        tabsize = 0;
+    }
+
+    std::string result;
+    result.reserve(str.size());
+
+    int col = 0;
+    for (size_t i = 0; i < str.size(); ++i) {
+
+        const char ch = str[i];
+        if (ch == '\t') {
+            if (tabsize == 0) {
+                continue;
+            }
+
+
+
+            const int spaces = tabsize - (col % tabsize);
+
+            result.append(static_cast<size_t>(spaces), ' ');
+            col += spaces;
+            continue;
+        }
+
+
+
+
+
+        result += ch;
+        if (ch == '\n' || ch == '\r') {
+            col = 0;
+        } else {
+            ++col;
+        }
+
+    }
+
+    return result;
 }
 
 int EditDistance(const std::string &left, const std::string &right, bool ignorecase) noexcept{

@@ -128,11 +128,22 @@ TEST(StringUtilsTest, Split){
 }
 
 TEST(StringUtilsTest, Join){
-    
+	EXPECT_EQ(StringUtils::Join(",", (std::vector<std::string>{})), "");
+	EXPECT_EQ(StringUtils::Join(",", (std::vector<std::string>{"a"})), "a");
+	EXPECT_EQ(StringUtils::Join(",", (std::vector<std::string>{"a", "b", "c"})), "a,b,c");
+	EXPECT_EQ(StringUtils::Join("", (std::vector<std::string>{"a", "b", "c"})), "abc");
+	EXPECT_EQ(StringUtils::Join("-", (std::vector<std::string>{"", "x", ""})), "-x-");
 }
 
 TEST(StringUtilsTest, ExpandTabs){
-    
+	EXPECT_EQ(StringUtils::ExpandTabs(""), "");
+	EXPECT_EQ(StringUtils::ExpandTabs("a\tb"), "a   b");
+	EXPECT_EQ(StringUtils::ExpandTabs("abcd\te"), "abcd    e");
+	EXPECT_EQ(StringUtils::ExpandTabs("a\t\tb"), "a       b");
+	EXPECT_EQ(StringUtils::ExpandTabs("a\tb\nc\td"), "a   b\nc   d");
+
+	EXPECT_EQ(StringUtils::ExpandTabs("a\tb", 2), "a b");
+	EXPECT_EQ(StringUtils::ExpandTabs("a\tb", 0), "ab");
 }
 
 TEST(StringUtilsTest, EditDistance){
