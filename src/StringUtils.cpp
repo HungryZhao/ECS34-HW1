@@ -287,8 +287,11 @@ int EditDistance(const std::string &left, const std::string &right, bool ignorec
     const size_t m = left.size();
     const size_t n = right.size();
 
-    if (m == 0 || n == 0) {
+    if (m == 0) {
         return static_cast<int>(n);
+    }
+    if (n == 0) {
+        return static_cast<int>(m);
     }
 
     std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
