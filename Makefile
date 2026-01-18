@@ -51,7 +51,7 @@ CONV_INPUTS := $(wildcard $(SRC_DIR)/*.cc $(SRC_DIR)/*.cpp $(INC_DIR)/*.h $(TEST
 CONV_OUTPUTS := $(addprefix $(HTMLCONV)/,$(addsuffix .html,$(subst /,_,$(CONV_INPUTS))))
 
 .PHONY: all
-all: test htmlconv
+all: test html
 
 
 
@@ -87,8 +87,8 @@ test: $(TARGET)
 	@echo "Running: $(TARGET)"
 	@$(TARGET)
 
-.PHONY: htmlconv
-htmlconv: $(CONV_OUTPUTS)
+.PHONY: html
+html: $(CONV_OUTPUTS)
 	@echo "HTML: $(HTMLCONV)/"
 
 .PHONY: coverage
@@ -96,8 +96,9 @@ coverage: | $(HTMLCOV) $(HTMLCONV)
 	@echo "Coverage test"
 	@$(MAKE) clean
 	@$(MAKE) CXXFLAGS="$(CXXFLAGS) -O0 --coverage" LDFLAGS="--coverage" test
-	@lcov -c -d . -o coverage.info
-	@lcov --remove coverage.info '/usr/*' '*/$(TEST_DIR)/*' -o coverage.info
+	@lcov -c -d $(OBJDIR) --ignore-errors inconsistent -o coverage.info
+	@lcov --remove coverage.info '/usr/*' --ignore-errors unused -o coverage.info
+	@mkdir -p $(HTMLCOV)
 	@genhtml coverage.info -o $(HTMLCOV)
 	@echo "Coverage HTML: $(HTMLCOV)/index.html"
 
