@@ -46,8 +46,20 @@ TEST_OBJS := $(patsubst $(TEST_DIR)/%.cc,$(TESTOBJDIR)/%.o,$(filter %.cc,$(TEST_
 
 DIRS := $(BINDIR) $(OBJDIR) $(TESTBINDIR) $(TESTOBJDIR) $(LIBDIR) $(HTMLCOV) $(HTMLCONV)
 
+
+CONV_INPUTS := $(wildcard $(SRC_DIR)/*.cc $(SRC_DIR)/*.cpp $(INC_DIR)/*.h $(TEST_DIR)/*.cc $(TEST_DIR)/*.cpp)
+CONV_OUTPUTS := $(addprefix $(HTMLCONV)/,$(addsuffix .html,$(subst /,_,$(CONV_INPUTS))))
+
 .PHONY: all
-all: test
+all: test htmlconv
+
+
+define CONV_template
+$(HTMLCONV)/$(subst /,_,$(1)).html: $(1) | $(HTMLCONV)
+	pygmentize -f html -O full -o $$@ $$<
+endef
+
+$(foreach f,$(CONV_INPUTS),$(eval $(call CONV_template,$(f))))
 
 $(DIRS):
 	@mkdir -p $@
@@ -71,6 +83,10 @@ $(TARGET): $(OBJS) $(TEST_OBJS) | $(TESTBINDIR)
 test: $(TARGET)
 	@echo "Running: $(TARGET)"
 	@$(TARGET)
+
+.PHONY: htmlconv
+htmlconv: $(CONV_OUTPUTS)
+	@echo "HTML: $(HTMLCONV)/"
 
 .PHONY: coverage
 coverage: | $(HTMLCOV) $(HTMLCONV)

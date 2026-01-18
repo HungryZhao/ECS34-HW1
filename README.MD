@@ -32,3 +32,5 @@ Because I found that prompting an AI to write tests takes more effort than just 
 2. For the Edit Distance question, I searched online and read:
 https://www.geeksforgeeks.org/dsa/introduction-to-levenshtein-distance/
 I referenced their second approach, but I modified it's logic and did not directly copy their code. I learned DP in the ECS122 course. I had done this problem before, but I forgot how to implement it now.
+
+3. For the makefile a referenced the https://makefiletutorial.com/#makefile-cookbook
