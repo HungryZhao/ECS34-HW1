@@ -147,5 +147,17 @@ TEST(StringUtilsTest, ExpandTabs){
 }
 
 TEST(StringUtilsTest, EditDistance){
-    
+	EXPECT_EQ(StringUtils::EditDistance("", ""), 0);
+	EXPECT_EQ(StringUtils::EditDistance("a", ""), 1);
+	EXPECT_EQ(StringUtils::EditDistance("", "abc"), 3);
+	EXPECT_EQ(StringUtils::EditDistance("abc", ""), 3);	
+	EXPECT_EQ(StringUtils::EditDistance("kitten", "sitting"), 3); // example from geeksforgeeks - Henry
+	EXPECT_EQ(StringUtils::EditDistance("flaw", "lawn"), 2);
+	EXPECT_EQ(StringUtils::EditDistance("asdddf", "acddde"), 2);
+
+	EXPECT_EQ(StringUtils::EditDistance("AbC", "aBc", false), 3);
+	EXPECT_EQ(StringUtils::EditDistance("AbC", "aBc", true), 0);
+
+	
+	EXPECT_EQ(StringUtils::EditDistance("abc", "yabc"), StringUtils::EditDistance("yabc", "abc"));
 }

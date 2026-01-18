@@ -282,8 +282,53 @@ std::string ExpandTabs(const std::string &str, int tabsize) noexcept{
 }
 
 int EditDistance(const std::string &left, const std::string &right, bool ignorecase) noexcept{
-    // Replace code here
-    return 0;
+    // I looked levenshtein distance up online
+    // https://www.geeksforgeeks.org/dsa/introduction-to-levenshtein-distance/
+    const size_t m = left.size();
+    const size_t n = right.size();
+
+    if (m == 0 || n == 0) {
+        return static_cast<int>(n);
+    }
+
+    std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
+
+    for (size_t i = 0; i <= m; ++i) {
+        dp[i][0] = static_cast<int>(i);
+    }
+    for (size_t j = 0; j <= n; ++j) {
+        dp[0][j] = static_cast<int>(j);
+    }
+
+    for (size_t i = 1; i <= m; ++i) {
+        unsigned char leftchar = static_cast<unsigned char>(left[i - 1]);
+        if (ignorecase) {
+            leftchar = static_cast<unsigned char>(std::tolower(leftchar));
+        }
+
+        for (size_t j = 1; j <= n; ++j) {
+            unsigned char rightchar = static_cast<unsigned char>(right[j - 1]);
+            if (ignorecase) {
+                rightchar = static_cast<unsigned char>(std::tolower(rightchar));
+            }
+
+            const int cost = (leftchar == rightchar) ? 0 : 1;
+            
+            const int del = dp[i - 1][j] + 1;
+            const int ins = dp[i][j - 1] + 1;
+            const int sub = dp[i - 1][j - 1] + cost;
+
+
+
+            int best = del;
+            if (ins < best) best = ins;
+            if (sub < best) best = sub;
+
+            dp[i][j] = best;
+        }
+    }
+
+    return dp[m][n];
 }
 
 };
