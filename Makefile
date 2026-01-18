@@ -44,14 +44,17 @@ OBJS      := $(patsubst $(SRC_DIR)/%.cc,$(OBJDIR)/%.o,$(filter %.cc,$(SRCS))) \
 TEST_OBJS := $(patsubst $(TEST_DIR)/%.cc,$(TESTOBJDIR)/%.o,$(filter %.cc,$(TEST_SRCS))) \
              $(patsubst $(TEST_DIR)/%.cpp,$(TESTOBJDIR)/%.o,$(filter %.cpp,$(TEST_SRCS)))
 
-DIRS := $(BINDIR) $(OBJDIR) $(TESTBINDIR) $(TESTOBJDIR) $(LIBDIR) $(HTMLCOV) $(HTMLCONV)
+DIRS := $(BINDIR) $(OBJDIR) $(TESTBINDIR) $(TESTOBJDIR) $(LIBDIR) $(HTMLCONV)
 
 
 CONV_INPUTS := $(wildcard $(SRC_DIR)/*.cc $(SRC_DIR)/*.cpp $(INC_DIR)/*.h $(TEST_DIR)/*.cc $(TEST_DIR)/*.cpp)
 CONV_OUTPUTS := $(addprefix $(HTMLCONV)/,$(addsuffix .html,$(subst /,_,$(CONV_INPUTS))))
 
-.PHONY: all
-all: test html
+.DEFAULT_GOAL := all
+
+.PHONY: all dirs test html coverage clean
+dirs: $(DIRS)
+all: dirs test html
 
 
 
@@ -80,7 +83,7 @@ $(TESTOBJDIR)/%.o: $(TEST_DIR)/%.cpp | $(TESTOBJDIR)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 $(TARGET): $(OBJS) $(TEST_OBJS) | $(TESTBINDIR)
-	$(CXX) $(LDFLAGS) $^ -o $@ $(LDLIBS)
+	$(CXX) $(LDFLAGS) $(TEST_OBJS) $(OBJS) -o $@ $(LDLIBS)
 
 .PHONY: test
 test: $(TARGET)
@@ -92,7 +95,7 @@ html: $(CONV_OUTPUTS)
 	@echo "HTML: $(HTMLCONV)/"
 
 .PHONY: coverage
-coverage: | $(HTMLCOV) $(HTMLCONV)
+coverage: | $(HTMLCONV)
 	@echo "Coverage test"
 	@$(MAKE) clean
 	@$(MAKE) CXXFLAGS="$(CXXFLAGS) -O0 --coverage" LDFLAGS="--coverage" test
