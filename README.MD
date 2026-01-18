@@ -27,6 +27,37 @@ Empty
 "", 0  ""
 hello, 3, 1  ""
 
+The response I got is as follows:
+
+```cpp
+
+TEST(StringUtilsTest, SliceTest){
+
+    // Basic
+	EXPECT_EQ(StringUtils::Slice("hello", 1, 3), "el");
+	EXPECT_EQ(StringUtils::Slice("hello", 0, 5), "hello");
+
+	// end==0 -> end of str
+	EXPECT_EQ(StringUtils::Slice("hello", 2), "llo");
+	EXPECT_EQ(StringUtils::Slice("hello", 1, 0), "ello");
+
+	// - indices like py
+	EXPECT_EQ(StringUtils::Slice("hello", -2), "lo");
+	EXPECT_EQ(StringUtils::Slice("hello", 0, -1), "hell");
+	EXPECT_EQ(StringUtils::Slice("hello", -4, -1), "ell");
+
+	// out-of-range indices
+	EXPECT_EQ(StringUtils::Slice("hello", -100, 2), "he");
+	EXPECT_EQ(StringUtils::Slice("hello", 1, 100), "ello");
+	EXPECT_EQ(StringUtils::Slice("hello", 100, 0), "");
+
+	// Empty
+	EXPECT_EQ(StringUtils::Slice("", 0), "");
+	EXPECT_EQ(StringUtils::Slice("hello", 3, 1), "");
+}
+
+```
+
 Because I found that prompting an AI to write tests takes more effort than just writing the tests myself, I wrote the tests on my own in the later parts.
 
 2. For the Edit Distance question, I searched online and read:
