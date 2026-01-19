@@ -20,6 +20,7 @@ TEST(StringUtilsTest, SliceTest){
 
 	// out-of-range indices
 	EXPECT_EQ(StringUtils::Slice("hello", -100, 2), "he");
+	EXPECT_EQ(StringUtils::Slice("hello", -100, -1), "hell");
 	EXPECT_EQ(StringUtils::Slice("hello", 1, 100), "ello");
 	EXPECT_EQ(StringUtils::Slice("hello", 100, 0), "");
 
@@ -55,6 +56,8 @@ TEST(StringUtilsTest, LStrip){
 	EXPECT_EQ(StringUtils::LStrip("   abc"), "abc");
 	EXPECT_EQ(StringUtils::LStrip("\t\n  abc"), "abc");
 	EXPECT_EQ(StringUtils::LStrip("   a b c"), "a b c");
+	EXPECT_EQ(StringUtils::LStrip("   \t\n"), "");
+	
 }
 
 TEST(StringUtilsTest, RStrip){
@@ -63,6 +66,7 @@ TEST(StringUtilsTest, RStrip){
 	EXPECT_EQ(StringUtils::RStrip("abc   "), "abc");
 	EXPECT_EQ(StringUtils::RStrip("abc\t\n  "), "abc");
 	EXPECT_EQ(StringUtils::RStrip("a b c   "), "a b c");
+	EXPECT_EQ(StringUtils::RStrip("\t\n   "), "");
 }
 
 TEST(StringUtilsTest, Strip){
@@ -82,6 +86,8 @@ TEST(StringUtilsTest, Center){
 	EXPECT_EQ(StringUtils::Center("hi", 4), " hi ");
 	EXPECT_EQ(StringUtils::Center("hi", 5), " hi  ");
 	EXPECT_EQ(StringUtils::Center("hi", 5, '*'), "*hi**");
+	EXPECT_EQ(StringUtils::Center("abc", 8, '.'), "..abc...");
+
 }
 
 TEST(StringUtilsTest, LJust){
@@ -112,6 +118,7 @@ TEST(StringUtilsTest, Replace){
 
 	EXPECT_EQ(StringUtils::Replace("abc", "", "-"), "-a-b-c-");
 	EXPECT_EQ(StringUtils::Replace("", "", "-"), "-");
+	EXPECT_EQ(StringUtils::Replace("aaaa", "a", "aa"), "aaaaaaaa");
     
 }
 
@@ -125,6 +132,8 @@ TEST(StringUtilsTest, Split){
 	EXPECT_EQ(StringUtils::Split("abc", ","), (std::vector<std::string>{"abc"}));
 	EXPECT_EQ(StringUtils::Split("", ","), (std::vector<std::string>{""}));
 	EXPECT_EQ(StringUtils::Split("a--b----c", "--"), (std::vector<std::string>{"a", "b", "", "c"}));
+	EXPECT_EQ(StringUtils::Split("aaaa", "aa"), (std::vector<std::string>{"", "", ""}));
+
 }
 
 TEST(StringUtilsTest, Join){
@@ -138,12 +147,19 @@ TEST(StringUtilsTest, Join){
 TEST(StringUtilsTest, ExpandTabs){
 	EXPECT_EQ(StringUtils::ExpandTabs(""), "");
 	EXPECT_EQ(StringUtils::ExpandTabs("a\tb"), "a   b");
+	EXPECT_EQ(StringUtils::ExpandTabs("\tb"), "    b");
 	EXPECT_EQ(StringUtils::ExpandTabs("abcd\te"), "abcd    e");
 	EXPECT_EQ(StringUtils::ExpandTabs("a\t\tb"), "a       b");
 	EXPECT_EQ(StringUtils::ExpandTabs("a\tb\nc\td"), "a   b\nc   d");
 
+	EXPECT_EQ(StringUtils::ExpandTabs("ab\r\tc"), "ab\r    c");
+
 	EXPECT_EQ(StringUtils::ExpandTabs("a\tb", 2), "a b");
 	EXPECT_EQ(StringUtils::ExpandTabs("a\tb", 0), "ab");
+	EXPECT_EQ(StringUtils::ExpandTabs("a\tb", 1), "a b");
+
+
+
 }
 
 TEST(StringUtilsTest, EditDistance){
@@ -151,12 +167,16 @@ TEST(StringUtilsTest, EditDistance){
 	EXPECT_EQ(StringUtils::EditDistance("a", ""), 1);
 	EXPECT_EQ(StringUtils::EditDistance("", "abc"), 3);
 	EXPECT_EQ(StringUtils::EditDistance("abc", ""), 3);	
+	EXPECT_EQ(StringUtils::EditDistance("a", "b"), 1);
+
 	EXPECT_EQ(StringUtils::EditDistance("kitten", "sitting"), 3); // example from geeksforgeeks - Henry
 	EXPECT_EQ(StringUtils::EditDistance("flaw", "lawn"), 2);
 	EXPECT_EQ(StringUtils::EditDistance("asdddf", "acddde"), 2);
 
 	EXPECT_EQ(StringUtils::EditDistance("AbC", "aBc", false), 3);
 	EXPECT_EQ(StringUtils::EditDistance("AbC", "aBc", true), 0);
+	EXPECT_EQ(StringUtils::EditDistance("Ab", "aB", true), 0);
+
 
 	
 	EXPECT_EQ(StringUtils::EditDistance("abc", "yabc"), StringUtils::EditDistance("yabc", "abc"));
