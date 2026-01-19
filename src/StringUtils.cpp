@@ -70,8 +70,7 @@ std::string Lower(const std::string &str) noexcept{
 }
 
 std::string LStrip(const std::string &str) noexcept{
-    
-    
+
     if (str.empty()) {
         return "";
     }
@@ -90,7 +89,6 @@ std::string RStrip(const std::string &str) noexcept{
         return "";
     }
 
-    
     size_t j = str.size();
     while (j > 0 && std::isspace(static_cast<unsigned char>(str[j - 1]))) {
         --j;
@@ -255,19 +253,12 @@ std::string ExpandTabs(const std::string &str, int tabsize) noexcept{
             if (tabsize == 0) {
                 continue;
             }
-
-
-
             const int spaces = tabsize - (col % tabsize);
 
             result.append(static_cast<size_t>(spaces), ' ');
             col += spaces;
             continue;
         }
-
-
-
-
 
         result += ch;
         if (ch == '\n' || ch == '\r') {
