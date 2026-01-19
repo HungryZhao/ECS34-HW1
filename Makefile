@@ -44,7 +44,7 @@ OBJS      := $(patsubst $(SRC_DIR)/%.cc,$(OBJDIR)/%.o,$(filter %.cc,$(SRCS))) \
 TEST_OBJS := $(patsubst $(TEST_DIR)/%.cc,$(TESTOBJDIR)/%.o,$(filter %.cc,$(TEST_SRCS))) \
              $(patsubst $(TEST_DIR)/%.cpp,$(TESTOBJDIR)/%.o,$(filter %.cpp,$(TEST_SRCS)))
 
-DIRS := $(BINDIR) $(OBJDIR) $(TESTBINDIR) $(TESTOBJDIR) $(LIBDIR) $(HTMLCONV)
+DIRS := $(BINDIR) $(OBJDIR) $(TESTBINDIR) $(TESTOBJDIR) $(LIBDIR) $(HTMLCONV) $(HTMLCOV)
 
 
 CONV_INPUTS := $(wildcard $(SRC_DIR)/*.cc $(SRC_DIR)/*.cpp $(INC_DIR)/*.h $(TEST_DIR)/*.cc $(TEST_DIR)/*.cpp)
